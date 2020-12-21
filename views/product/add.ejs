@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="http://localhost:3000/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/styles/style-addPro.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>NodeJs</title>
+</head>
+
+<body style="margin: 0px 150px 0px 150px;">
+    <nav class="navbar navbar-inverse">
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin" style="color: White;">Admin Paper</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/admin/product">Product</a></li>
+                <li><a href="/admin/category">Category</a></li>
+                <li><a href="/user">User</a></li>
+                <li><a href="/admin/order">Order</a></li>
+                <li><a href="/admin/report">Report</a></li>
+            </ul>
+            <a style="float: right; margin-top: 6px;" class="btn btn-primary" href="/logout/<%- id %> "
+                role="button">Log out</a><span><a style="float: right; margin-right: 10px ;margin-top: 6px;"
+                    class="btn btn-primary" href="/admin/change-pass" role="button">Change password</a></span>
+    </nav>
+    <div class="container">
+        <h1 style="text-align: center;">Edit Product</h1>
+        <form action="../admin/product/add" method="POST" enctype="multipart/form-data"
+            style="margin: 0px 50px 0px 50px;">
+            <% if(errs1.length> 0){{%>
+                <div style="text-align: center;" class="alert alert-success">
+                    <%= errs1 %>
+                </div>
+                <% }} %>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="fname">Product Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" name="namePro">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="lname">Price</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" name="pricePro"><br>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="country">Category</label>
+                        </div>
+                        <div class="col-75">
+                            <select name="catePro">
+
+                                <% listcategory.forEach(function(Category){ %>
+                                    <option>
+                                        <%- Category.nameCategory %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div> <br>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            
+                        </div>
+                        <div class="col-75">
+                            <input style="margin-top: 20px;" type="file" name="imgPro"><br>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <input type="submit" value="Upload">
+                    </div>
+        </form>
+    </div>
+</body>
+
+</html>

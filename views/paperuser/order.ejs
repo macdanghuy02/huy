@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/styles/style-admin-product.css">
+</head>
+
+
+
+<body style="margin: 0px 150px 0px 150px;">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">SmartPhone</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/apple">Apple</a></li>
+        <li><a href="/samsung">Samsung</a></li>
+      </ul>
+      <a style="float: right;"  href="/view-cart/<%- listdata._id%>"><button class="btn btn-danger navbar-btn">Shopping cart ( <strong id="quantityCart"><%- listdata.cart.length %> </strong>)</button></a>
+    </div>
+  </nav>
+    <form action="../order" method="POST" >
+        <h1>Don hang da dat</h1>
+        <table>
+            <tr>
+              <th style="text-align: center; background-color: #4CAF50; color: white; font-size: 20px;">Name Product</th>
+              <th style="text-align: center; background-color: #4CAF50; color: white; font-size: 20px;">Units</th>
+              <th style="text-align: center; background-color: #4CAF50; color: white; font-size: 20px;">Qualitis</th>
+              <th style="text-align: center; background-color: #4CAF50; color: white; font-size: 20px;">Price product</th>
+
+            </tr>
+            <% listdata.cart.forEach(function(listcart){ %>       
+            <tr >
+              <input  type="hidden" value="<%- listcart.Product_id %>" name = "idPro" readonly >
+              <td style="padding: 15px;"><%- listcart.namePro %></td>
+              <td style="padding: 15px;"><%- listcart.Units%></td>
+              <td style="padding: 15px;"><%- listcart.Quality %></td>
+              <td style="padding: 15px;"><%- listcart.Price %></td>             
+            </tr>
+            <% }); %>
+            <tr>
+                <td style="border-right: none;"></td>
+                <td style="border-right: none; border-left: none;"></td>
+                <td style="border-right: none; border-left: none;"></td>
+                <td>Total Price: <%- listdata.totalPrice %></td>
+            </tr>
+          </table>
+        <h1>Nhập thông tin giao hàng</h1>
+        <input type="hidden" name="total" value="<%- listdata.totalPrice %>" readOnly>
+        <input id="today" type="hidden" name="dates" readOnly>
+        <script>
+          let today = new Date().toISOString().substr(0, 10);
+          document.querySelector("#today").value = today;
+          
+          document.querySelector("#today2").valueAsDate = new Date();
+          </script>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Địa chỉ Email *</label>
+          <input type="email" class="form-control" placeholder="Enter email" name="email" >
+        </div>
+        <% if(errs.length > 0){{%>
+          <div style="text-align: center; height: 20px;" class="alert alert-success" >
+            <p style="margin-top: -10px;"><%= errs %></p>
+          </div>
+        <%  }} %>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Họ và tên</label>
+            <input type="text" class="form-control" placeholder="Nhập tên" name="name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Số điện thoại *</label>
+            <input  type="tel" class="form-control"  style="-webkit-appearance: none;" placeholder="Nhập số điện thoại" name="phone" >
+        </div>
+        <% if(errs1.length > 0){{%>
+          <div style="text-align: center; height: 20px;" class="alert alert-success" >
+            <p style="margin-top: -10px;"><%= errs1 %></p>
+          </div>
+        <%  }} %>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Địa chỉ giao hàng *</label>
+            <input type="text" class="form-control" placeholder="nhập địa chỉ" name="address" >
+        </div>
+        <% if(errs2.length > 0){{%>
+          <div style="text-align: center; height: 20px;" class="alert alert-success" >
+            <p style="margin-top: -10px;"><%= errs2 %></p>
+          </div>
+        <%  }} %>
+        <input  class="btn btn-primary" type="submit" value="Xac Nhan">       
+      </form>
+</body>
+</html>

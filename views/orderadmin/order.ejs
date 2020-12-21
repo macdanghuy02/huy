@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/styles/style-admin-product.css">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>NodeJs</title>
+</head>
+
+<body style="margin: 0px 150px 0px 150px;">
+  <nav class="navbar navbar-inverse" >
+    
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a  class="navbar-brand" href="/admin" style="color: White;">Admin Paper</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/admin/product">Product</a></li>
+        <li><a href="/admin/category">Category</a></li>
+        <li><a href="/user">User</a></li>
+        <li class="active"><a href="/admin/order">Order</a></li>
+        <li><a href="/admin/report">Report</a></li>   
+        </ul>
+        <a style="float: right; margin-top: 6px;" class="btn btn-primary" href="/logout/<%- id %> " role="button">Log out</a><a style="float: right; margin-top: 6px; margin-right: 10px;" class="btn btn-primary" href="/admin/change-pass" role="button">Change password</a>
+  </nav>
+  <div >
+    <table class="table table-striped">
+      <thead>
+        <tr  style="background-color: #4CAF50; color: white;">
+          
+          <th  scope="col" style="border: 2px solid black; text-align: center; padding: 15px;">Customer name</th>
+          <th  scope="col" style="border: 2px solid black; text-align: center; padding: 15px;">Customer email</th>
+          <th  scope="col" style="border: 2px solid black; text-align: center; padding: 15px;">Customer phone</th>
+          <th  scope="col" style="border: 2px solid black; text-align: center; padding: 15px;">Customer address</th>
+          <th  scope="col" style="border: 2px solid black; text-align: center; padding: 15px;">Product</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <% function groupBy(list, keyGetter) {%>
+        <%const map = new Map();%>
+        <%list.forEach((item) => {%>
+        <%   const key = keyGetter(item);%>
+        <%    const collection = map.get(key);%>
+        <%    if (!collection) {%>
+        <%      map.set(key, [item]);%>
+        <%  } else {%>
+        <%       collection.push(item);%>
+        <%   }%>
+        <%   });%>
+        <%   return map;%>
+        <%  } %>
+        <% var listdatas = listdata.sort(function (a, b) {%>
+        <% if (a.date > b.date) return -1;%>
+        <% if (a.date < b.date) return 1;%>
+        <% return 0;%>
+        <% }) %>
+
+        <% const grouped = groupBy(listdata, datas => datas.date); %>
+
+
+        <% grouped.forEach(function(data){ %>
+        <td scope="col" colspan="5" style="border: 2px solid black; text-align: center; background-color: khaki;">Order
+          date (yy/mm/dd): <strong><%- data[0].date%> </strong></td>
+        <tr>
+          <%data.forEach(function(datas){ %>
+          <td style="border: 1px solid black;"><%- datas.name %></td>
+          <td style="border: 1px solid black;"><%- datas.email %></td>
+          <td style="border: 1px solid black;"><%- datas.phone %></td>
+          <td style="border: 1px solid black;"><%- datas.address %></td>
+          <td style="border: 1px solid black;"> <a style="text-decoration: none;"
+              href="order/view/<%- datas._id %> ">Sản phẩm đã đặt</a></td>
+        </tr>
+
+        <% });}); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

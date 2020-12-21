@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Samsung Paper</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="margin: 0px 150px 0px 150px;">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">SmartPhone</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li ><a href="apple">Apple</a></li>
+        <li  class="active"><a href="samsung">Samsung</a></li>
+      </ul>
+      <a style="float: right;"  href="/view-cart/<%- listdata._id%>"><button class="btn btn-danger navbar-btn">Shopping cart ( <strong id="quantityCart"><%- listdata.cart.length %> </strong> )</button></a>
+    </div>
+  </nav>
+
+  <div class="container text-center" style="border-left: 10px solid red ; margin-bottom: 30px; text-align: left;">
+    <h2>Samsung</h2>     
+  </div>
+  <% if(errs.length > 0){{%>
+    <div style="text-align: center; height: 20px;" class="alert alert-success" >
+      <p style="margin-top: -10px;"><%= errs %></p>
+    </div>
+  <%  }} %> 
+  <div class="coWhat We Do</h3><br>ntainer text-center">    
+    <div class="row">
+      <% listproduct.forEach(function(Product){ %>
+      <div class="col-sm-4" style="margin-bottom: 20px;">
+        <img src="/upload/<%- Product.imgProduct %>" class="img-responsive" style="width:100%" alt="Image">
+        <p><%- Product.nameProduct %></p>
+        <p><%- Product.priceProduct %></p>
+        <span class="btn__Product" style="margin-top: 10px;" productId="<%- Product._id %>"> <button class="btn btn-primary">Thêm vào giỏ hàng</button></span>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+  <script>
+    const quantityCart = document.getElementById("quantityCart");
+    const btnProduct = document.querySelectorAll(".btn__Product"); // lấy tất cả các nút thêm giỏ hàng arrBtnProduct
+    btnProduct.forEach((value,index)=>{ // dùng vòng lặp xuất từng btn
+      value.addEventListener("click", async ()=>{ // gán sự kiện click vào trong các element html
+        const productId = value.getAttribute("productId"); // lấy attribute của btnProduct => (productId)
+        quantityCart.innerHTML = parseInt(quantityCart.innerHTML) + 1;
+        if(productId != null){         
+          const response = await fetch("/cart/"+ productId +"",{
+              method: "GET",
+              credentials: "include",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+          } ).then(error =>{console.log(error)});
+        }
+      });
+    });
+  </script>
+</body>
+</html>

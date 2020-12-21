@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/styles/style-admin-product.css">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>NodeJs</title>
+</head>
+<body style="margin: 0px 150px 0px 150px;">
+  <nav class="navbar navbar-inverse" >
+    
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a  class="navbar-brand" href="/admin" style="color: White;">Admin Paper</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/admin/product">Product</a></li>
+        <li class="active"><a href="/admin/category">Category</a></li>
+        <li><a href="/user">User</a></li>
+        <li><a href="/admin/order">Order</a></li>
+        <li><a href="/admin/report">Report</a></li>   
+        </ul>
+        <a style="float: right; margin-top: 6px;" class="btn btn-primary" href="/logout/<%- listdata._id %> " role="button">Log out</a><span><a style="float: right; margin-right: 10px ;margin-top: 6px;" class="btn btn-primary" href="/admin/change-pass" role="button">Change password</a></span>
+  </nav>
+  <% if(errs.length > 0){{%>
+    <div style="text-align: center;"class="alert alert-success" >
+      <%= errs %>
+    </div>
+  <%  }} %>
+    <a style="float: right; margin-bottom: 5px;" class="btn btn-primary" href="/admin/category/add " role="button">Add new category</a>
+    <div class="editer">
+        
+    </div>
+        <table>
+            <tr style="background-color: #4CAF50; color: white;">
+              <th style="text-align: center; padding: 10px; ">ID</th>
+              <th style="text-align: center; padding: 10px;">Name Category</th>
+              <th colspan="2"></th>
+              
+            </tr>
+            <% listcategory.forEach(function(Category){ %>       
+            <tr>
+              <td style="padding: 5px; font-size: 15px;"><%- Category._id %></td>
+              <td style="padding: 5px; font-size: 15px;"><%- Category.nameCategory %></td>
+              <td style="padding: 5px; font-size: 15px;"><a href="/admin/category/edit/<%- Category._id %>">Edit</a></td>
+              <td style="padding: 5px; font-size: 15px;"><a onclick="return confirm('Do you want to delete')" href="/admin/category/delete/<%- Category._id %>">Delete</a></td>
+            </tr>
+            <% }); %>
+          </table>
+
+</body>
+</html>

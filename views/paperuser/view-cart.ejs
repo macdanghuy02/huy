@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/c560c025cf.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="/stylepaper/cart.css">
+    <title>Document</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card shopping-cart">
+        <div class="card-header bg-dark text-light">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            Giỏ Hàng
+            <a href="/" class="btn btn-outline-info btn-sm pull-right">Tiếp tục mua sắm</a>
+            <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+            <!-- PRODUCT -->
+            <% listcart.cart.forEach(function(list){ %>
+            <div class="row productFrame">
+                <div class="col-12 col-sm-12 col-md-2 text-center">
+                    <img class="img-responsive" src="/upload/<%- list.imagePro %> " alt="prewiew" width="120"
+                        height="80">
+                </div>
+                <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                    <strong><%- list.namePro %></strong>
+                </div>
+                <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+                    <div class="col-3 col-sm-3 col-md-6 text-md-right " style="padding-top: 5px" >
+                        <div class="demo1">
+                            <input type="text" value="<%- list.Price %>" class="price" readonly disabled>
+                            <input type="hidden" value="<%- list.Units %>" class="prices" >
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="col-4 col-sm-4 col-md-4">
+                        <div class="quantity">
+                            <form action="" method="POST">
+                                <span class="plusBTn" productId ="<%- list.Product_id %>"><input type="button" value="+"
+                                        class="plus"></span>
+                                <input class="qty" type="text" step="2" max="99" min="1" value="<%- list.Quality %>" 
+                                    name="quality" class="increaseField">
+                                <span class="minusBTn" productId ="<%- list.Product_id %>"><input type="button" value="-"
+                                        class="minus"></span>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-2 col-sm-2 col-md-2 text-right">
+                        <span onclick="return confirm('Do you want to delete')" class="deleteBtn" productId = "<%- list.Product_id %>"
+                            ><button type="button"
+                                class="btn btn-outline-danger btn-xs"><i class="fa fa-trash"
+                                    aria-hidden="true"></i></button></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+            <% }); %>
+            <Strong style="float: right;">Tổng Cộng: <strong id="total"><%- listcart.totalPrice %></strong> VND</Strong>
+            <a href="order/<%- listcart._id %> "><button class="btn btn-primary">Xác nhận đặt hàng</button></a>
+        </div>
+    </div>
+</div>
+<script>
+    const plusBtn = document.querySelectorAll(".plusBTn");
+    const minusBtn = document.querySelectorAll(".minusBTn");
+    const increaseField = document.querySelectorAll(".qty");
+    const price = document.querySelectorAll(".price");
+    const prices = document.querySelectorAll(".prices");
+    const deleteBtn = document.querySelectorAll(".deleteBtn");
+    const productFrame = document.querySelectorAll(".productFrame");
+    const quantityCart = document.getElementById("quantityCart");
+    const total = document.getElementById("total");
+    plusBtn.forEach((value,index)=>{
+        value.addEventListener("click",()=>{
+           
+            const productId = value.getAttribute("productId");
+            updatePlus(productId);
+            increaseField[index].value = parseInt(increaseField[index].value) + 1;
+            price[index].value = parseInt(prices[index].value) * parseInt(increaseField[index].value);
+            total.innerHTML = parseInt(total.innerHTML) + parseInt(prices[index].value); 
+        })
+    })
+    minusBtn.forEach((value,index)=>{
+        value.addEventListener("click",()=>{
+           
+            const productId = value.getAttribute("productId");          
+            updateMinus(productId);          
+            if(parseInt(increaseField[index].value) > 1){
+                increaseField[index].value = parseInt(increaseField[index].value) - 1;      
+                price[index].value = parseInt(prices[index].value) * parseInt(increaseField[index].value);    
+                total.innerHTML = parseInt(total.innerHTML) - parseInt(prices[index].value); 
+            }
+        })
+    })
+    deleteBtn.forEach((value,index)=>{
+        value.addEventListener("click",()=>{
+            const productId = value.getAttribute("productId");
+            deleteProduct(productId);
+            productFrame[index].remove();
+            total.innerHTML = parseInt(total.innerHTML) - parseInt(prices[index].value); 
+        });
+    });
+    async function deleteProduct(id){
+        const response = await fetch("delete/"+ id +"",{
+            method: "GET",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(error =>{console.log(error)});
+    }
+    async function updatePlus(id){
+        const response = await fetch("update/plus/"+ id +"",{
+            method: "GET",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(error =>{console.log(error)});
+    }
+    async function updateMinus(id){
+        const response = await fetch("update/min/"+ id +"",{
+            method: "GET",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(error =>{console.log(error)});
+    }
+</script>
+</body>
+
+</html> 
