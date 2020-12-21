@@ -3,6 +3,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser')
 var cookieSession = require('cookie-session')
 var flash = require('connect-flash');
+var PORT = process.env.PORT || 3000;
 
 //var session = require('express-session')
 var app = express();
@@ -30,7 +31,7 @@ app.use(flash());
 
 app.set("view engine", "ejs");
 app.set("views", "./views")
-app.listen(3000)
+app.listen(PORT)
 
 //connect mongoosejs
 var mongoose = require('mongoose');
